@@ -1,7 +1,9 @@
+<!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="./static/mywebscript.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
+          crossorigin="anonymous">
     <style>
         .center-heading {
             text-align: center;
@@ -12,21 +14,32 @@
     <div class="card">
         <div class="card-body">
             <h1 class="center-heading">NLP - Emotion Detection</h1> 
-            <div style="padding: 25px 25px 25px 25px;">
-            <h2 class="mb-3">
-                <label class="form-label">Please enter the text to be analyzed</label>
-                <input type="textarea" class="form-control" id="textToAnalyze">
-            </h2>
 
-            <div style="padding: 25px 25px 25px 25px;">
-                <button onclick="RunSentimentAnalysis()" class="btn btn-secondary">Run Sentiment Analysis</button>
-            </div>
-            <div style="padding: 25px 25px 25px 25px;"></div>
+            <!-- Added form with POST method -->
+            <form action="/emotionDetector" method="POST">
+                <div style="padding: 25px 0;">
+                    <label class="form-label" for="textToAnalyze">Please enter the text to be analyzed</label>
+                    <!-- Changed input type to textarea and added name attribute -->
+                    <textarea name="textToAnalyze" id="textToAnalyze" class="form-control" rows="4"></textarea>
+                </div>
+                
+                <div style="padding: 25px 0;">
+                    <button type="submit" class="btn btn-secondary">Run Sentiment Analysis</button>
+                </div>
+            </form>
+
             <h2 class="mb-3">
                 <label class="form-label">Result of Emotion Detection</label>
             </h2>
 
-            <div id="system_response" style="padding: 25px 25px 25px 25px;"></div>
+            <!-- Make sure Flask renders this div with response content -->
+            <div id="system_response" style="padding: 25px 0;">
+                <!-- Flask will inject results here via render_template -->
+                {% if response_string %}
+                    {{ response_string | safe }}
+                {% endif %}
+            </div>
         </div>
     </div>
 </body>
+</html>
